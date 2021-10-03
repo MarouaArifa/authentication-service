@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @JsonDeserialize(as = NaturalPerson.class)
 @Table(	name = "contact")
 public  class Contact {
-
+//oumaima
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
