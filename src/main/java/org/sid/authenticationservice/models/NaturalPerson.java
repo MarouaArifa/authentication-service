@@ -14,10 +14,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(	name = "naturalPerson",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "cin")
-        })
+
 public class NaturalPerson extends Contact{
 
     @Column(unique=true)

@@ -18,6 +18,7 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignupRequest {
+
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -27,13 +28,27 @@ public class SignupRequest {
     @Email
     private String email;
 
-
-
     private ERole role;
 
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
 
+    @NotBlank
+    @Size(max = 100)
+    private String empTitle;
+
+    private int empLength;
+
+    private String workEstablishement;
+
+    @NotBlank
+    @Size(max = 100)
+    private String workAddress;
+
+    private boolean hasMatriculeFiscal;
+
+    @Size(max = 100)
+    private String matriculeFiscal;
 
 }

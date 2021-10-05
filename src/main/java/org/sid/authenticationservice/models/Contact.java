@@ -34,7 +34,7 @@ public  class Contact {
     private String mobile;
     @Size(max = 20)
     private String phone;
-    @OneToOne(fetch= FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
     @JoinColumn(name = "idUser", referencedColumnName = "id")
     private User idUser;
 

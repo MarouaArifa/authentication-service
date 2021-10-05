@@ -1,5 +1,6 @@
 package org.sid.authenticationservice.restApi;
 import org.sid.authenticationservice.config.repository.UserRepository;
+import org.sid.authenticationservice.models.Customer;
 import org.sid.authenticationservice.models.ERole;
 import org.sid.authenticationservice.models.MyUserDetails;
 import org.sid.authenticationservice.models.User;
@@ -63,8 +64,39 @@ public class AuthController {
                 userDetails.getUsername(),
                 roles));
     }
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
 
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
 
+        // Create new user's account
+        Customer c = new Customer(
+                signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
+                ERole.ROLE_CLIENT,
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getEmpTitle(),
+                signUpRequest.getEmpLength(),
+                signUpRequest.getWorkEstablishement(),
+                signUpRequest.getWorkAddress(),
+                signUpRequest.isHasMatriculeFiscal(),
+                signUpRequest.getMatriculeFiscal()
+        );
+
+        userRepository.save(c);
+
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+/*
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -91,7 +123,7 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
-
+*/
 
 
 }

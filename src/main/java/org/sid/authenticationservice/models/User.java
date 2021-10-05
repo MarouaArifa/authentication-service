@@ -33,6 +33,7 @@ public class User {
     @NotBlank
     @Size(max = 120)
     private String password;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ERole role;
@@ -41,6 +42,10 @@ public class User {
     @NotBlank
     @Size(max = 120)
     private String email;
+
+    @OneToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
+    @JoinColumn(name = "idContact", referencedColumnName = "id")
+    private Contact idContact;
 
     public User(String username, String email, String encode) {
         this.username=username;
@@ -59,6 +64,10 @@ public class User {
         this.id=id;
         this.username=username;
 
+    }
+
+    public User(Contact idContact) {
+        this.idContact=idContact;
     }
 }
 

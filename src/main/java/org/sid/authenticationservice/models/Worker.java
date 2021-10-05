@@ -12,22 +12,12 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(	name = "worker")
-public class Worker {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
+public class Worker extends User {
     @Column
     private double salary;
-
     @Column
     private int seniority;
-    @NotBlank
-    @Size(max = 20)
-    private String email;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idContact", referencedColumnName = "id")
-    private Contact idContact;
+
 
 }

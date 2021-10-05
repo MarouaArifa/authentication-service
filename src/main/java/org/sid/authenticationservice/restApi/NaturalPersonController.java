@@ -3,15 +3,19 @@ package org.sid.authenticationservice.restApi;
 import org.sid.authenticationservice.config.repository.CustomerRepository;
 import org.sid.authenticationservice.config.repository.NaturalPersonRepository;
 import org.sid.authenticationservice.config.repository.UserRepository;
+import org.sid.authenticationservice.exceptions.NotFoundException;
 import org.sid.authenticationservice.models.*;
 import org.sid.authenticationservice.payload.request.ContactRequest;
 import org.sid.authenticationservice.payload.request.NaturalPersonRequest;
 import org.sid.authenticationservice.payload.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/contact")
@@ -32,15 +36,23 @@ public class NaturalPersonController {
         NaturalPerson n=npRepository.save(np);
         User u= userRepository.findByid(np.getIdUser().getId());
         System.out.println(" rrrrrrrrrrrrrrrrrrrrrrr"+n.getId()+"eeeeeee"+ u.getRole());
-      if(u.getRole()== ERole.ROLE_CLIENT)
-        {
-            System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-
-            Customer c =new Customer(new Contact(n.getId()));
-            customerRepository.save(c);
-       }
+        Customer c =new Customer(new Contact(n.getId()));
+        customerRepository.save(c);
 
         return ResponseEntity.ok(new MessageResponse("contact registered successfully!"));
     }
+
+    @PutMapping ("/update/{id}")
+    public ResponseEntity<?>  updateUer(@Valid @RequestBody NaturalPersonRequest npRequest ,@PathVariable(value = "id" ) Long id) throws NotFoundException{
+        Optional<NaturalPerson> np = Optional.ofNullable(npRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Person not Found for this id ::" + id)));
+        NaturalPerson n = np.get();
+        n.setAddress(npRequest.getAddress());
+        n.setChildNumber(npRequest.getChildNumber());
+        npRepository.saveAndFlush(n) ;
+        return new ResponseEntity<>("Person is successfully updated", HttpStatus.OK);
+    }
+
+
 }
 
