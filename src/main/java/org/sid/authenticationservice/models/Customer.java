@@ -49,8 +49,5 @@ public class Customer extends  User{
 
     }
 
-    public Customer(Contact idContact) {
-        super(idContact);
 
-    }
 }

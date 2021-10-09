@@ -10,4 +10,5 @@ import java.util.Optional;
 @Transactional
 public interface NaturalPersonRepository extends JpaRepository<NaturalPerson, Long> {
     Optional<NaturalPerson> findById(Long id);
+    NaturalPerson findByCin(String cin);
 }

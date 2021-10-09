@@ -43,9 +43,7 @@ public class User {
     @Size(max = 120)
     private String email;
 
-    @OneToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
-    @JoinColumn(name = "idContact", referencedColumnName = "id")
-    private Contact idContact;
+
 
     public User(String username, String email, String encode) {
         this.username=username;
@@ -66,8 +64,6 @@ public class User {
 
     }
 
-    public User(Contact idContact) {
-        this.idContact=idContact;
-    }
+
 }
 

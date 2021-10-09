@@ -26,9 +26,7 @@ public class WorkerRequest  {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
-    @NotBlank
     private double salary;
-    @NotBlank
     private int seniority;
 
 
