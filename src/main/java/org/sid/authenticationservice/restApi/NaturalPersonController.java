@@ -26,7 +26,7 @@ public class NaturalPersonController {
     @Autowired
     NaturalPersonRepository npRepository;
 
-    @PostMapping("/addContact")
+    @PostMapping("/addContact")//
     public ResponseEntity<?> addContact(@Valid @RequestBody NaturalPersonRequest npRequest) {
 // ajout id contact dans table user +ajout d'une fonction update de user pour modifier id Contact
         // Create new user's account

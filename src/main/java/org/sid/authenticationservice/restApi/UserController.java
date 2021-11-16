@@ -12,7 +12,6 @@ import org.sid.authenticationservice.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +35,7 @@ public class UserController {
     }
     @ApiOperation(value = "Get all users", response = ResponseEntity.class)
     //@PreAuthorize("hasRole('DEVELOPER') or hasRole('MANAGER') or hasRole('ADMIN')")
-    @GetMapping
+    @GetMapping("/list")
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -69,21 +68,11 @@ public class UserController {
 
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("user not Found for this id ::"+id));
-
         user.setUsername(signupRequest.getUsername());
-
         user.setPassword(signupRequest.getPassword());
-
-
-
-
         userRepository.save(user);
             return new ResponseEntity<>(" status of training successfully updated",HttpStatus.OK);
         }
-
-
-
-
 
 }
 

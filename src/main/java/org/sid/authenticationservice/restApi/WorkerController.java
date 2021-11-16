@@ -1,5 +1,6 @@
 package org.sid.authenticationservice.restApi;
 
+import org.sid.authenticationservice.config.repository.NaturalPersonRepository;
 import org.sid.authenticationservice.config.repository.UserRepository;
 import org.sid.authenticationservice.config.repository.WorkerRepository;
 import org.sid.authenticationservice.exceptions.NotFoundException;
@@ -28,7 +29,8 @@ public class WorkerController {
 
     @Autowired
     WorkerRepository workerRepository;
-
+    @Autowired
+    NaturalPersonRepository npRepository;
     @Autowired
     PasswordEncoder encoder;
 
@@ -53,15 +55,25 @@ public class WorkerController {
                 workerRequest.getSeniority()
                 );
         workerRepository.save(w);
+        NaturalPerson np = new NaturalPerson(workerRequest .getAddress(),workerRequest .getCity(),
+                workerRequest .getZipcode(),workerRequest .getMobile(),
+                workerRequest .getPhone(),workerRepository.findById(w.getId()).get(),
+                workerRequest .getCin(), workerRequest .getFirstname(),
+                workerRequest .getLastname(), workerRequest .getBirthday(),
+                workerRequest .getGender(), workerRequest .getCivilStatus(),
+                workerRequest .getChildNumber());
+
+        npRepository.save(np);
+
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 //à tester
     @PutMapping ("/update/{id}")
     public ResponseEntity<?>  updateUer(@Valid @RequestBody WorkerRequest workerRequest , @PathVariable(value = "id" ) Long id) throws NotFoundException {
-        Optional<Worker> np = Optional.ofNullable(workerRepository.findById(id)
+        Optional<Worker> w = Optional.ofNullable(workerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Person not Found for this id ::" + id)));
-        Worker n = np.get();
+        Worker n = w.get();
         n.setSalary(workerRequest.getSalary());
         n.setEmail(workerRequest.getEmail());
         n.setSeniority(workerRequest.getSeniority());

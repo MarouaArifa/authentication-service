@@ -48,4 +48,6 @@ public class NaturalPerson extends Contact{
         this.childNumber=childNumber;
         this.civilStatus=civilStatus;
     }
+
+
 }
