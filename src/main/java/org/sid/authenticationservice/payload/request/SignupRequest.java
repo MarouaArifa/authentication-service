@@ -86,5 +86,6 @@ public class SignupRequest {
     @Column(length = 20)
     private ECivilStatus civilStatus;
     private int childNumber;
+    private boolean verif;
 
 }

@@ -90,6 +90,7 @@ public class AuthController {
                 signUpRequest.getWorkAddress(),
                 signUpRequest.isHasMatriculeFiscal(),
                 signUpRequest.getMatriculeFiscal()
+
         );
 
         userRepository.save(c);

@@ -14,7 +14,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(	name = "users",
         uniqueConstraints = {
@@ -43,6 +42,8 @@ public class User {
     @Size(max = 120)
     private String email;
 
+    private boolean verif;
+
 
 
     public User(String username, String email, String encode) {
@@ -64,8 +65,13 @@ public class User {
 
     }
 
-
-
-
+    public User(Long id, String username, String password, ERole role, String email, boolean verif) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+        this.verif = verif;
+    }
 }
 
