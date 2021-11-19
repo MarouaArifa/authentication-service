@@ -20,12 +20,9 @@ public class SupportingDocRequest {
 
     private Long id;
     @NotBlank
-    @Size(max = 60)
     private String type;
     @NotBlank
-    @Size(max = 200)
     private String path;
-    @ManyToOne
     private Customer customer;
 
     public String getType() {
@@ -51,5 +48,7 @@ public class SupportingDocRequest {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+
 }
 

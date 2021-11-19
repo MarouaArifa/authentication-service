@@ -28,6 +28,7 @@ public class Customer extends  User{
     private boolean hasMatriculeFiscal;
     @Size(max = 100)
     private String matriculeFiscal;
+    private boolean verif;
 
     @OneToMany (mappedBy="customer")
     private Set<SupportingDocument> supportingDocuments;
@@ -37,7 +38,7 @@ public class Customer extends  User{
 
     public Customer(String username, String email, ERole roleClient, String encode, String empTitle,
                     int empLength, String workEstablishement, String workAddress,
-                    boolean hasMatriculeFiscal, String matriculeFiscal)
+                    boolean hasMatriculeFiscal, String matriculeFiscal,boolean verif)
     {
         super(username,email, roleClient, encode );
         this.empTitle=empTitle;
@@ -46,6 +47,7 @@ public class Customer extends  User{
         this.workAddress=workAddress;
         this.hasMatriculeFiscal=hasMatriculeFiscal;
         this.matriculeFiscal=matriculeFiscal;
+        this.verif=verif;
 
     }
 

@@ -18,7 +18,7 @@ public class SupportingDocController {
     @Autowired
     SupportingDocRepository docRepository;
 
-    @PostMapping("/addDocLoan")
+    @PostMapping("/addDoc")
     public ResponseEntity<?> addDocLoan(@Valid @RequestBody SupportingDocRequest docRequest) {
         System.out.println("aaaaaaaaaaaaaaaaaaa");
         SupportingDocument d = new SupportingDocument(

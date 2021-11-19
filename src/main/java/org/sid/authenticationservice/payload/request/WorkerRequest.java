@@ -17,8 +17,6 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class WorkerRequest  {
     @NotBlank
     @Size(min = 3, max = 20)

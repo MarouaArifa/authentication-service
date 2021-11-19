@@ -55,7 +55,6 @@ public class UserController {
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public User getUserById(@PathVariable(value = "userId") Long id) {
         if(userRepository.existsById(id)) {
-//            System.out.println("Server 2 *********");
              return userRepository.findByid(id);
 
         } else {
@@ -73,6 +72,23 @@ public class UserController {
         userRepository.save(user);
             return new ResponseEntity<>(" status of training successfully updated",HttpStatus.OK);
         }
+
+
+
+
+    @ApiOperation(value = "Get all requests", response = ResponseEntity.class)
+    @GetMapping("/allReq")
+    public List<User> getAllReq() {
+        return userRepository.allReq();
+    }
+
+
+    @GetMapping("findByUserName/{key}")
+    public List<User> findByUserName(@PathVariable (value = "key") String key) {
+
+        return userRepository.findByUserName(key);
+
+    }
 
 }
 

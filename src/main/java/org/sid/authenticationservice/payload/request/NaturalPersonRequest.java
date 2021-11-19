@@ -14,8 +14,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class NaturalPersonRequest extends  ContactRequest {
 
     @NotBlank

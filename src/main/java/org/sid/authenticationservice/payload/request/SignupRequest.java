@@ -88,4 +88,11 @@ public class SignupRequest {
     private int childNumber;
     private boolean verif;
 
+    public boolean getVerif() {
+        return verif;
+    }
+
+    public void setVerif(boolean verif) {
+        this.verif = verif;
+    }
 }

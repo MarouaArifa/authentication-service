@@ -89,7 +89,8 @@ public class AuthController {
                 signUpRequest.getWorkEstablishement(),
                 signUpRequest.getWorkAddress(),
                 signUpRequest.isHasMatriculeFiscal(),
-                signUpRequest.getMatriculeFiscal()
+                signUpRequest.getMatriculeFiscal(),
+                signUpRequest.getVerif()
 
         );
 
