@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.util.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,8 +22,6 @@ public class Account {
     @NotBlank
     @Size(max = 20)
     private String rib;
-
-    @NotBlank
     private double balance;
 
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -32,5 +30,10 @@ public class Account {
     private Long customer;
 
 
-
+    public Account(String rib, double balance, Date openingDate, Long customer) {
+        this.rib = rib;
+        this.balance = balance;
+        this.openingDate = openingDate;
+        this.customer = customer;
+    }
 }
