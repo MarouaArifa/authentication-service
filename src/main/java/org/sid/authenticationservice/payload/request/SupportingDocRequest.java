@@ -3,14 +3,8 @@ package org.sid.authenticationservice.payload.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.sid.authenticationservice.models.Customer;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
 
 @Data
 @NoArgsConstructor
@@ -23,7 +17,7 @@ public class SupportingDocRequest {
     private String type;
     @NotBlank
     private String path;
-    private Customer customer;
+    private Long customer;
 
     public String getType() {
         return type;
@@ -41,11 +35,11 @@ public class SupportingDocRequest {
         this.path = path;
     }
 
-    public Customer getCustomer() {
+    public Long getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(Long customer) {
         this.customer = customer;
     }
 

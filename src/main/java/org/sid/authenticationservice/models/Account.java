@@ -28,8 +28,8 @@ public class Account {
 
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date openingDate;
-    @ManyToOne
-    private Customer customer;
+
+    private Long customer;
 
 
 

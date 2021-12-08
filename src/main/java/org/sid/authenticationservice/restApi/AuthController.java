@@ -64,6 +64,10 @@ public class AuthController {
                 userDetails.getUsername(),
                 roles));
     }
+
+
+
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest ) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -80,6 +84,7 @@ public class AuthController {
 
         // Create new user's account
         Customer c = new Customer(
+                signUpRequest.getId(),
                 signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 ERole.ROLE_CLIENT,
@@ -135,6 +140,9 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 */
+
+
+
 
 
 }

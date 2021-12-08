@@ -21,22 +21,25 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 public class SignupRequest {
 
-    @NotBlank
+     private Long id;
+
+
+
     @Size(min = 3, max = 20)
     private String username;
 
-    @NotBlank
+
     @Size(max = 50)
     @Email
     private String email;
 
     private ERole role;
 
-    @NotBlank
+
     @Size(min = 6, max = 40)
     private String password;
 
-    @NotBlank
+
     @Size(max = 100)
     private String empTitle;
 
@@ -44,7 +47,7 @@ public class SignupRequest {
 
     private String workEstablishement;
 
-    @NotBlank
+
     @Size(max = 100)
     private String workAddress;
 
@@ -53,28 +56,28 @@ public class SignupRequest {
     @Size(max = 100)
     private String matriculeFiscal;
 
-    @NotBlank
+
     @Size(max = 20)
     private String address;
 
-    @NotBlank
+
     @Size(max = 20)
     private String city;
 
     @Size(max =4 )
     private String zipcode;
-    @NotBlank
+
     @Size(max = 20)
     private String mobile;
     @Size(max = 20)
     private String phone;
-    @NotBlank
+
     @Size(max = 8)
     private String cin;
-    @NotBlank
+
     @Size(max = 20)
     private String firstname;
-    @NotBlank
+
     @Size(max = 20)
     private String lastname;
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -94,5 +97,14 @@ public class SignupRequest {
 
     public void setVerif(boolean verif) {
         this.verif = verif;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

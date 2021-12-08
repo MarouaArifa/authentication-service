@@ -15,14 +15,14 @@ import java.util.Set;
 @Entity
 public class Customer extends  User{
 
-    @NotBlank
+
     @Size(max = 20)
     private String empTitle;
     private int empLength;
-    @NotBlank
+
     @Size(max = 100)
     private String workEstablishement;
-    @NotBlank
+
     @Size(max = 100)
     private String workAddress;
     private boolean hasMatriculeFiscal;
@@ -30,17 +30,17 @@ public class Customer extends  User{
     private String matriculeFiscal;
     private boolean verif;
 
-    @OneToMany (mappedBy="customer")
+   @OneToMany (mappedBy="customer")
     private Set<SupportingDocument> supportingDocuments;
 
     @OneToMany (mappedBy="customer")
     private Set<Account> accounts;
 
-    public Customer(String username, String email, ERole roleClient, String encode, String empTitle,
+    public Customer(Long id,String username, String email, ERole roleClient, String encode, String empTitle,
                     int empLength, String workEstablishement, String workAddress,
                     boolean hasMatriculeFiscal, String matriculeFiscal,boolean verif)
     {
-        super(username,email, roleClient, encode );
+        super(id, username, encode, roleClient,  email,  verif );
         this.empTitle=empTitle;
         this.empLength=empLength;
         this.workEstablishement=workEstablishement;

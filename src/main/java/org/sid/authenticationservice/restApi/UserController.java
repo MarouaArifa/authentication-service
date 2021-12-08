@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiParam;
 import org.sid.authenticationservice.config.repository.UserRepository;
 import org.sid.authenticationservice.exceptions.NotFoundException;
 import org.sid.authenticationservice.models.MyUserDetails;
+import org.sid.authenticationservice.models.NaturalPerson;
 import org.sid.authenticationservice.models.User;
 import org.sid.authenticationservice.payload.request.SignupRequest;
 import org.sid.authenticationservice.security.CurrentUser;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Email;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,9 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private EmailService emailService;
+
     @ApiOperation(value = "Return authenticated user", response = User.class)
     @GetMapping("/user/me")
     //@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -89,6 +94,26 @@ public class UserController {
         return userRepository.findByUserName(key);
 
     }
+
+
+    //some other code
+
+   @PostMapping(value = "/email")
+    public ResponseEntity<User> enviarEmail( @RequestBody User user){
+        try {
+            emailService.sendEmail(user);
+            return new ResponseEntity<>(user,  HttpStatus.OK);
+        } catch( Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+
+
+
 
 }
 

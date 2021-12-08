@@ -20,10 +20,10 @@ public class SupportingDocument {
     private String type;
     @NotBlank
     private String path;
-    @ManyToOne
-    private Customer customer;
 
-    public SupportingDocument(String type, String path, Customer customer) {
+    private Long customer;
+
+    public SupportingDocument(String type, String path, Long customer) {
         this.type = type;
         this.path = path;
         this.customer=customer;
