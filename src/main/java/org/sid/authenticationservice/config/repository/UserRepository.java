@@ -2,8 +2,10 @@ package org.sid.authenticationservice.config.repository;
 
 import org.sid.authenticationservice.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +22,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.verif = 0 and dtype like '%Customer%' ")
     List<User> allReq();
 
+    @Query("select u from User u where u.verif = 1 and dtype like '%Customer%' ")
+    List<User> all();
+
     @Query("select u from User u where u.username =:key ")
     List<User> findByUserName(String key);
+
+
+    @Modifying
+    @Transactional
+    @Query("update User u set u.verif = true where u.id =:id ")
+    int updateVerif(Long id);
+
 
 }

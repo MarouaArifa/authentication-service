@@ -1,6 +1,7 @@
 package org.sid.authenticationservice.restApi;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.sid.authenticationservice.config.repository.CustomerRepository;
 import org.sid.authenticationservice.config.repository.NaturalPersonRepository;
 import org.sid.authenticationservice.config.repository.UserRepository;
@@ -66,6 +67,23 @@ public class NaturalPersonController {
         return Optional.ofNullable(npRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Person not Found for this id ::" + id)));
     }
+
+
+
+
+    @ApiOperation(value = "delete user by Id", response = ResponseEntity.class)
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long userId) {
+
+        Optional<NaturalPerson> u = npRepository.findById(userId);
+        if (u.isPresent()) {
+            npRepository.delete(u.get());
+            return new ResponseEntity("np is successfully deleted", HttpStatus.OK);
+        } else {
+            throw new NotFoundException("np not found");
+        }
+    }
+
 
 }
 

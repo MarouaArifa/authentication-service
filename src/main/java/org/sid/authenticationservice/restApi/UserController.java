@@ -2,11 +2,13 @@ package org.sid.authenticationservice.restApi;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import org.sid.authenticationservice.config.repository.UserRepository;
 import org.sid.authenticationservice.exceptions.NotFoundException;
 import org.sid.authenticationservice.models.MyUserDetails;
 import org.sid.authenticationservice.models.NaturalPerson;
 import org.sid.authenticationservice.models.User;
+import org.sid.authenticationservice.payload.request.ContactRequest;
 import org.sid.authenticationservice.payload.request.SignupRequest;
 import org.sid.authenticationservice.security.CurrentUser;
 import org.sid.authenticationservice.utils.ResourceNotFoundException;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.util.List;
 import java.util.Optional;
@@ -88,6 +91,27 @@ public class UserController {
     }
 
 
+    @ApiOperation(value = "Get all requests", response = ResponseEntity.class)
+    @GetMapping("/all")
+    public List<User> getAll() {
+        return userRepository.all();
+    }
+
+
+
+
+
+    @PutMapping("/updateV/{id}")
+    public int updateVerif(@PathVariable(value = "id") Long id) throws NotFoundException {
+        Optional<User> us = Optional.ofNullable(userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("user not Found for this id ::" + id)));
+           return  userRepository.updateVerif(id);
+        //return new ResponseEntity<>("User is successfully updated", HttpStatus.OK);
+    }
+
+
+
+
     @GetMapping("findByUserName/{key}")
     public List<User> findByUserName(@PathVariable (value = "key") String key) {
 
@@ -108,10 +132,20 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-
     }
 
+    @ApiOperation(value = "delete user by Id", response = ResponseEntity.class)
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long userId) {
 
+        Optional<User> u = userRepository.findById(userId);
+        if (u.isPresent()) {
+            userRepository.delete(u.get());
+            return new ResponseEntity("user is successfully deleted", HttpStatus.OK);
+        } else {
+            throw new NotFoundException("user not found");
+        }
+    }
 
 
 
