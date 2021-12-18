@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import org.sid.authenticationservice.config.repository.UserRepository;
 import org.sid.authenticationservice.exceptions.NotFoundException;
+import org.sid.authenticationservice.models.Account;
 import org.sid.authenticationservice.models.MyUserDetails;
 import org.sid.authenticationservice.models.NaturalPerson;
 import org.sid.authenticationservice.models.User;
@@ -133,6 +134,22 @@ public class UserController {
         }
 
     }
+
+
+    @PostMapping(value = "/emailAccount")
+    public ResponseEntity<User> enviarEmailAccount(@RequestBody User user){
+        try {
+            emailService.sendEmailAccount(user);
+            return new ResponseEntity<>(user,  HttpStatus.OK);
+        } catch( Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
+
 
     @ApiOperation(value = "delete user by Id", response = ResponseEntity.class)
     @DeleteMapping("/delete/{userId}")

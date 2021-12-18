@@ -1,22 +1,22 @@
 package org.sid.authenticationservice.restApi;
-
-import org.sid.authenticationservice.models.Contact;
-import org.sid.authenticationservice.models.NaturalPerson;
+import org.sid.authenticationservice.models.Account;
 import org.sid.authenticationservice.models.User;
+import org.sid.authenticationservice.models.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Email;
+import java.util.Optional;
+
 
 @Service
 public class EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private AccountController ac;
 
 
     void sendEmail(User user) {
@@ -33,4 +33,28 @@ public class EmailService {
         javaMailSender.send(msg);
 
     }
+
+
+    void sendEmailAccount(User user) {
+
+        Optional<Account> account= ac.findByUser(user.getId());
+        System.out.println("Emaaaaaaaaaaaaaaaaail "+user.getEmail());
+
+        System.out.println("Riiiiiiiiiiiiiiiiiiiiiib spriing  "+account.get().getRib());
+
+
+
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(user.getEmail());
+
+        msg.setSubject("Bienvenue à RIZIK Banque");
+
+        msg.setText("Bonjour \n Votre RIB est  : "+account.get().getRib());
+
+        javaMailSender.send(msg);
+
+    }
+
+
+
 }

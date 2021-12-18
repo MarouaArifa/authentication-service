@@ -3,6 +3,7 @@ package org.sid.authenticationservice.restApi;
 
 import org.sid.authenticationservice.config.repository.AccountRepository;
 import org.sid.authenticationservice.models.Account;
+import org.sid.authenticationservice.models.User;
 import org.sid.authenticationservice.payload.request.AccountRequest;
 import org.sid.authenticationservice.payload.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,12 @@ public class AccountController {
         return accRep.findById(id);
     }
 
+    @GetMapping("findByUser/{key}")
+    public Optional<Account> findByUser(@PathVariable (value = "key") Long key) {
 
+        return accRep.findAccountByUser(key).stream().findFirst();
+
+    }
 
 
 
