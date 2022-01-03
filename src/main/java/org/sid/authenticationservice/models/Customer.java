@@ -19,7 +19,8 @@ public class Customer extends  User{
     @Size(max = 20)
     private String empTitle;
     private int empLength;
-
+    @Column
+    private double annualIncome;
     @Size(max = 100)
     private String workEstablishement;
 
@@ -37,12 +38,13 @@ public class Customer extends  User{
     private Set<Account> accounts;
 
     public Customer(Long id,String username, String email, ERole roleClient, String encode, String empTitle,
-                    int empLength, String workEstablishement, String workAddress,
+                    int empLength, Double annualIncome,String workEstablishement, String workAddress,
                     boolean hasMatriculeFiscal, String matriculeFiscal,boolean verif)
     {
         super(id, username, encode, roleClient,  email,  verif );
         this.empTitle=empTitle;
         this.empLength=empLength;
+        this.annualIncome=annualIncome;
         this.workEstablishement=workEstablishement;
         this.workAddress=workAddress;
         this.hasMatriculeFiscal=hasMatriculeFiscal;

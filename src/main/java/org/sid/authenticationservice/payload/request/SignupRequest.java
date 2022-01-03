@@ -47,6 +47,8 @@ public class SignupRequest {
 
     private String workEstablishement;
 
+    private  Double annualIncome;
+
 
     @Size(max = 100)
     private String workAddress;

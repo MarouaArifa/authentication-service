@@ -17,10 +17,10 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAccountByUser(Long id);
 
 
-    @Modifying
+   /* @Modifying
     @Transactional
-    @Query("update Account set Account.balance = Account.balance + User.salary where Account.customer =:User.id")
-    int updateBalance();
+    @Query("update Account set Account.balance = Account.balance + (SELECT u.salary from User where Account.customer =:User.id) ")
+    int updateBalance();*/
 
 
 

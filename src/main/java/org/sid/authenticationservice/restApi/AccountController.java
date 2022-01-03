@@ -2,9 +2,11 @@ package org.sid.authenticationservice.restApi;
 
 
 import org.sid.authenticationservice.config.repository.AccountRepository;
+import org.sid.authenticationservice.config.repository.UserRepository;
+import org.sid.authenticationservice.config.repository.CustomerRepository;
 import org.sid.authenticationservice.exceptions.NotFoundException;
 import org.sid.authenticationservice.models.Account;
-import org.sid.authenticationservice.models.User;
+import org.sid.authenticationservice.models.Customer;
 import org.sid.authenticationservice.payload.request.AccountRequest;
 import org.sid.authenticationservice.payload.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,11 @@ public class AccountController {
     @Autowired
     private AccountRepository accRep;
 
+    @Autowired
+    private UserRepository userRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @PostMapping("/createAcc")
     public ResponseEntity<?> createAccount(@Valid @RequestBody AccountRequest accRequest) {
@@ -58,16 +64,14 @@ public class AccountController {
 
     @PutMapping("/updateBalance")
     public int updateBalance() {
-        return  accRep.updateBalance();
+        List<Account> l=accRep.findAll();
+        for (Account a:l) {
+            Customer c=customerRepository.findById(a.getCustomer()).get();
+            a.setBalance(a.getBalance()+c.getAnnualIncome()/12);
+            accRep.save(a);
+        }
 
+        return 1;
     }
-
-
-
-
-
-
-
-
 
 }
