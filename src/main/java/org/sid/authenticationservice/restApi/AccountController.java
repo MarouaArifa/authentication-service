@@ -2,6 +2,7 @@ package org.sid.authenticationservice.restApi;
 
 
 import org.sid.authenticationservice.config.repository.AccountRepository;
+import org.sid.authenticationservice.exceptions.NotFoundException;
 import org.sid.authenticationservice.models.Account;
 import org.sid.authenticationservice.models.User;
 import org.sid.authenticationservice.payload.request.AccountRequest;
@@ -53,6 +54,17 @@ public class AccountController {
         return accRep.findAccountByUser(key).stream().findFirst();
 
     }
+
+
+    @PutMapping("/updateBalance")
+    public int updateBalance() {
+        return  accRep.updateBalance();
+
+    }
+
+
+
+
 
 
 
