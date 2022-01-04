@@ -15,7 +15,7 @@ public  class ContactRequest {
 
 
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 200)
     private String address;
 
     @NotBlank

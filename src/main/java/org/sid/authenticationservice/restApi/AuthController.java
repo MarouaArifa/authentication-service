@@ -91,7 +91,7 @@ public class AuthController {
                 encoder.encode(signUpRequest.getPassword()),
                 signUpRequest.getEmpTitle(),
                 signUpRequest.getEmpLength(),
-                signUpRequest.getAnnualIncome(),
+                20000.00,
                 signUpRequest.getWorkEstablishement(),
                 signUpRequest.getWorkAddress(),
                 signUpRequest.isHasMatriculeFiscal(),

@@ -59,7 +59,7 @@ public class SignupRequest {
     private String matriculeFiscal;
 
 
-    @Size(max = 20)
+    @Size(max = 200)
     private String address;
 
 
