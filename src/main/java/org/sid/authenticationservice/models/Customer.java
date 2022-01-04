@@ -19,8 +19,8 @@ public class Customer extends  User{
     @Size(max = 20)
     private String empTitle;
     private int empLength;
-    @Column
     private double annualIncome;
+
     @Size(max = 100)
     private String workEstablishement;
 
