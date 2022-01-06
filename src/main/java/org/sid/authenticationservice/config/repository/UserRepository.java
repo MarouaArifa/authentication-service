@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsById(String id);
     Boolean existsByEmail(String email);
 
-    @Query("select u from User u where u.verif = 0 and dtype like '%Customer%' ")
+    @Query("select u from User u where u.verif = 0 and dtype like '%Customer%' and u.role like '%ROLE_CLIENT%'")
     List<User> allReq();
 
     @Query("select u from User u where u.verif = 1 and dtype like '%Customer%' ")
