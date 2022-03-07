@@ -3,6 +3,8 @@ package org.sid.authenticationservice.restApi;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
+import org.sid.authenticationservice.config.repository.ContactRepository;
+import org.sid.authenticationservice.config.repository.SupportingDocRepository;
 import org.sid.authenticationservice.config.repository.UserRepository;
 import org.sid.authenticationservice.exceptions.NotFoundException;
 import org.sid.authenticationservice.models.Account;
@@ -30,6 +32,12 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
+    private SupportingDocRepository docRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -58,7 +66,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public Optional<User> findById(@PathVariable (value = "id") Long id) {
-
+        System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
         return userRepository.findById(id);
     }
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
@@ -100,6 +108,14 @@ public class UserController {
 
 
 
+    @ApiOperation(value = "Get all employees", response = ResponseEntity.class)
+    @GetMapping("/allEmployees")
+    public List<User> getAllEmployees() {
+        return userRepository.employees();
+    }
+
+
+
 
 
     @PutMapping("/updateV/{id}")
@@ -111,19 +127,21 @@ public class UserController {
     }
 
 
-
-
-    @GetMapping("findByUserName/{key}")
-    public List<User> findByUserName(@PathVariable (value = "key") String key) {
-
-        return userRepository.findByUserName(key);
+    @PutMapping("/updateVRef/{id}")
+    public int updateVerifRef(@PathVariable(value = "id") Long id) throws NotFoundException {
+        Optional<User> us = Optional.ofNullable(userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("user not Found for this id ::" + id)));
+        return  userRepository.updateVerifRefuse(id);
 
     }
 
 
+
+
+
     //some other code
 
-   @PostMapping(value = "/email")
+  /* @PostMapping(value = "/email")
     public ResponseEntity<User> enviarEmail( @RequestBody User user){
         try {
             emailService.sendEmail(user);
@@ -134,6 +152,9 @@ public class UserController {
         }
 
     }
+*/
+
+
 
 
     @PostMapping(value = "/emailAccount")
@@ -156,12 +177,25 @@ public class UserController {
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long userId) {
 
         Optional<User> u = userRepository.findById(userId);
+        //contactRepository.deleteContact(userId);
+        //docRepository.deleteDoc(userId);
         if (u.isPresent()) {
             userRepository.delete(u.get());
-            return new ResponseEntity("user is successfully deleted", HttpStatus.OK);
+            return new ResponseEntity("doc successfully deleted", HttpStatus.OK);
+
         } else {
             throw new NotFoundException("user not found");
         }
+    }
+
+
+
+
+    @PutMapping("/updatePassword/{id}/{pwd}")
+    public int updatePassword(@PathVariable(value = "id") Long id, @PathVariable(value = "pwd") String pwd) throws NotFoundException {
+
+        return  userRepository.updatePassword(id, passwordEncoder.encode(pwd));
+        //return new ResponseEntity<>("User is successfully updated", HttpStatus.OK);
     }
 
 

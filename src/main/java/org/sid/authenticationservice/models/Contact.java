@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -34,7 +37,9 @@ public  class Contact {
     private String mobile;
     @Size(max = 20)
     private String phone;
-    @OneToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "idUser", referencedColumnName = "id")
     private User idUser;
 

@@ -2,6 +2,7 @@ package org.sid.authenticationservice.restApi;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import org.sid.authenticationservice.config.repository.ContactRepository;
 import org.sid.authenticationservice.config.repository.CustomerRepository;
 import org.sid.authenticationservice.config.repository.NaturalPersonRepository;
 import org.sid.authenticationservice.config.repository.UserRepository;
@@ -26,6 +27,9 @@ public class NaturalPersonController {
     UserRepository userRepository;
     @Autowired
     NaturalPersonRepository npRepository;
+
+    @Autowired
+    private ContactRepository contactRepository;
 
     @PostMapping("/addContact")//
     public ResponseEntity<?> addContact(@Valid @RequestBody NaturalPersonRequest npRequest) {
@@ -83,6 +87,25 @@ public class NaturalPersonController {
             throw new NotFoundException("np not found");
         }
     }
+
+
+    @ApiOperation(value = "delete user by Id", response = ResponseEntity.class)
+    @DeleteMapping("/deleteCotact/{userId}")
+    public ResponseEntity<ApiResponse> deleteContact(@PathVariable Long userId) {
+
+        Optional<User> u = userRepository.findById(userId);
+
+        if (u.isPresent()) {
+            contactRepository.deleteContact(userId);
+            return new ResponseEntity("contact successfully deleted", HttpStatus.OK);
+
+        } else {
+            throw new NotFoundException("user not found");
+        }
+
+    }
+
+
 
 
 }

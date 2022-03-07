@@ -57,4 +57,20 @@ public class EmailService {
 
 
 
+    void sendEmailRefuse(User user) {
+
+        System.out.println("Emaaaaaaaaaaaaaaaaail"+user.getEmail());
+
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(user.getEmail());
+
+        msg.setSubject("Bienvenue à RIZIK Banque");
+        msg.setText("Bonjour \n Nous sommes désolés nous nous pouvons pas vous accorder un accès!\n Vos informations sont incomplètes! Réessayez de nouveau : ");
+
+        javaMailSender.send(msg);
+
+    }
+
+
+
 }

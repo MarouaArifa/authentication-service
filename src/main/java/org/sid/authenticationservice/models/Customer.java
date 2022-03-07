@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -34,8 +33,9 @@ public class Customer extends  User{
    @OneToMany (mappedBy="customer")
     private Set<SupportingDocument> supportingDocuments;
 
-    @OneToMany (mappedBy="customer")
-    private Set<Account> accounts;
+    @OneToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
+    @JoinColumn(name = "accounts", referencedColumnName = "id")
+    private Account accounts;
 
     public Customer(Long id,String username, String email, ERole roleClient, String encode, String empTitle,
                     int empLength, Double annualIncome,String workEstablishement, String workAddress,

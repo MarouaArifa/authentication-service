@@ -1,31 +1,31 @@
 package org.sid.authenticationservice.restApi;
 import org.sid.authenticationservice.config.repository.NaturalPersonRepository;
+import org.sid.authenticationservice.config.repository.SupportingDocRepository;
 import org.sid.authenticationservice.config.repository.UserRepository;
 import org.sid.authenticationservice.models.*;
 import org.sid.authenticationservice.payload.request.LoginRequest;
 import org.sid.authenticationservice.payload.request.NaturalPersonRequest;
 import org.sid.authenticationservice.payload.request.SignupRequest;
+import org.sid.authenticationservice.payload.request.SupportingDocRequest;
 import org.sid.authenticationservice.payload.response.JwtResponse;
 import org.sid.authenticationservice.payload.response.MessageResponse;
 import org.sid.authenticationservice.security.JwtUtils;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -37,6 +37,12 @@ public class AuthController {
     NaturalPersonRepository npRepository;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    SupportingDocRepository docRepository;
 
 
     @Autowired
@@ -115,7 +121,66 @@ public class AuthController {
     }
 
 
+    @GetMapping("findByUserNameV2/{key}")
+    public List<User> findByUserName(@PathVariable (value = "key") String key) {
 
+        return userRepository.findByUserNameV2(key);
+
+    }
+
+
+
+
+    @PostMapping("/addDoc")
+    public ResponseEntity<?> addDocLoan(@RequestBody SupportingDocRequest docRequest) {
+        System.out.println("aaaaaaaaaaaaaaaaaaa");
+        System.out.println("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"+docRequest.getType());
+        String[] tab = docRequest.getType().split(Pattern.quote("|"));
+        System.out.println("taaaaaaaaaaaaaaaaaaaaaaaab 0 "+tab[0]);
+        System.out.println("taaaaaaaaaaaaaaaaaaaaaaab 1  "+tab[1]);
+        docRequest.setType(tab[0]);
+        docRequest.setCustomer(Long.valueOf( tab[1]));
+
+
+        SupportingDocument d = new SupportingDocument(
+                docRequest.getType(),
+                docRequest.getPath(),
+                docRequest.getCustomer());
+
+        docRepository.save(d);
+
+        return ResponseEntity.ok(new MessageResponse("Documents registered successfully!"));
+
+    }
+
+
+
+
+    @PostMapping(value = "/email")
+    public ResponseEntity<User> enviarEmail( @RequestBody User user){
+        try {
+            emailService.sendEmail(user);
+            return new ResponseEntity<>(user,  HttpStatus.OK);
+        } catch( Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
+
+    @PostMapping(value = "/emailRefuse")
+    public ResponseEntity<User> enviarEmailRefuse( @RequestBody User user){
+        try {
+            emailService.sendEmailRefuse(user);
+            return new ResponseEntity<>(user,  HttpStatus.OK);
+        } catch( Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 
 
 }

@@ -3,6 +3,8 @@ package org.sid.authenticationservice.payload.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sid.authenticationservice.models.User;
+
 import javax.validation.constraints.NotBlank;
 
 
@@ -19,29 +21,6 @@ public class SupportingDocRequest {
     private String path;
     private Long customer;
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public Long getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Long customer) {
-        this.customer = customer;
-    }
 
 
 }

@@ -38,10 +38,17 @@ public class AccountController {
                 accRequest.getCustomer());
 
         accRep.save(a);
+        userRepository.updateAccount(accRequest.getCustomer());
         return ResponseEntity.ok(new MessageResponse("account registered successfully!"));
 
     }
 
+   /* @PutMapping("/updateAccount")
+    public int updateAccount(@Valid @RequestBody AccountRequest accRequest) throws NotFoundException {
+
+       return  userRepository.updateAccount(accRequest.getCustomer());
+    }
+*/
     @GetMapping("/all")
     public List<Account> getAllAccounts() {
         return accRep.findAll();
@@ -62,7 +69,7 @@ public class AccountController {
     }
 
 
-    @PutMapping("/updateBalance")
+    @PostMapping("/updateBalance")
     public int updateBalance() {
         List<Account> l=accRep.findAll();
         for (Account a:l) {
@@ -72,6 +79,13 @@ public class AccountController {
         }
 
         return 1;
+    }
+
+
+    @PutMapping("/updateBalanceM/{id}/{m}")
+    public int updateBalanceM(@PathVariable(value = "id") Long id,@PathVariable(value = "m") double m) throws NotFoundException {
+
+        return  accRep.updateBalanceM(id,m);
     }
 
 }
